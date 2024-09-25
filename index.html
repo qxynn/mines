@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mines</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="board">
+        <div class="row">
+            <div class="tile" id="0">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="1">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="2">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="3">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="4">
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile" id="5">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="6">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="7">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="8">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="9">
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile" id="10">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="11">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="12">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="13">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="14">
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile" id="15">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="16">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="17">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="18">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="19">
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile" id="20">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="21">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="22">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="23">
+                <div class="cover"></div>
+            </div>
+            <div class="tile" id="24">
+                <div class="cover"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="home">
+
+        <div id="play" style="padding-top: 75vh;">
+            play
+        </div>
+
+    </div>
+
+    <script>
+        
+        let clears = 0;
+        numBombs = 1;
+        let bombs = [];
+        const tiles = 25;
+
+        let cleared = [];
+
+        let bombFlag = false;
+
+        for (let i = 0; i < numBombs; i++) {
+            let location;
+            do {
+                location = Math.floor(Math.random() * 25);
+            } while (bombs.includes(location));
+            location = 24;
+            bombs[i] = location;
+            console.log(bombs);
+        }
+        
+        document.getElementById('play').addEventListener('click', () => {
+
+            document.body.removeChild(document.querySelector('.home'));
+
+            let i = 0;
+            document.querySelectorAll('.cover').forEach(cover => {
+                setTimeout(() => {
+                    cover.classList.add('rise');
+                }, 15 * i);
+                i++;
+            });
+
+            document.querySelectorAll('.cover').forEach(cover => {
+
+                cover.addEventListener('click', () => {
+                    if (clears == tiles - numBombs) {
+                        bombFlag = true;
+                    }
+                    if (!cleared[cover.parentElement.id] && !bombFlag) {
+                        if (bombs.includes(parseInt(cover.parentElement.id))) {
+                            cover.classList.add('clear');
+                            cover.parentElement.classList.add('reveal');
+                            cover.parentElement.append("💣");
+                            cleared[cover.parentElement.id] = true;
+                            clears++;
+                            setTimeout(() => {
+                                endGame();
+                            }, 450);
+                        } else {
+                            cover.classList.add('clear');
+                            cover.parentElement.classList.add('reveal');
+                            cover.parentElement.append("💎");
+                            clears++;
+                            cleared[cover.parentElement.id] = true;
+                        }
+                    }
+                    
+                });
+
+            });
+        });
+
+        
+
+        function endGame() {
+            bombFlag = true;
+            document.querySelectorAll('.tile').forEach(tile => {
+                if (!cleared[tile.id]) {
+                    tile.classList.add('blurred');
+                }
+            });
+            document.querySelectorAll('.cover').forEach(cover => {
+                cover.style.opacity = "70%";
+                if (!bombs.includes(parseInt(cover.parentElement.id)) && !cleared[cover.parentElement.id]) {
+                    if (!cover.parentElement.innerText.includes("💎")) {
+                        cover.parentElement.append("💎");
+                    }
+                } else if (bombs.includes(parseInt(cover.parentElement.id)) >= 0 && !cleared[cover.parentElement.id]) {
+                    if (!cover.parentElement.innerText.includes("💣")) {
+                        cover.parentElement.append("💣");
+                    }
+                }
+            });
+            let i = 24;
+            document.querySelectorAll('.cover').forEach(cover => {
+                setTimeout(() => {
+                    cover.classList.add('erase');
+                    cover.parentElement.classList.remove('reveal');
+                    cover.parentElement.classList.remove('blurred');
+                    cover.classList.remove('rise');
+                    cover.classList.remove('clear');
+                }, 15 * i);
+                i--;
+            });
+        }
+
+    </script>
+</body>
+</html>
