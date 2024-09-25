@@ -30,6 +30,7 @@ body {
 }
 
 .rise {
+    background-color: white;
     animation-name: rise;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -120,7 +121,10 @@ body {
 }
 
 @keyframes erase {
-    
+    100% {box-shadow: none;}
+    85% {box-shadow: none;}
+    70% {box-shadow: 1px 1px 4px rgb(230, 230, 230);}
+    0% {box-shadow: 6px 6px 8px rgb(230, 230, 230);}
 }
 
 .home {

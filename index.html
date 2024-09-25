@@ -191,14 +191,26 @@
             let i = 24;
             document.querySelectorAll('.cover').forEach(cover => {
                 setTimeout(() => {
+                    cover.parentElement.innerText.replace(/💎/g, '');
+                    cover.parentElement.className = "";
+                    cover.parentElement.classList.add('tile');
+                    cover.className = "";
+                    cover.classList.add('cover');
                     cover.classList.add('erase');
-                    cover.parentElement.classList.remove('reveal');
-                    cover.parentElement.classList.remove('blurred');
-                    cover.classList.remove('rise');
-                    cover.classList.remove('clear');
                 }, 15 * i);
                 i--;
             });
+            i = 0;
+            setTimeout(() => {
+                document.querySelectorAll('.cover').forEach(cover => {
+                    setTimeout(() => {
+                        cover.classList.add('rise');
+                        cover.classList.remove('erase');
+                    }, 15 * i);
+                    i++;
+                });
+            }, 1250);
+            
         }
 
     </script>
