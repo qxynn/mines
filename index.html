@@ -10,87 +10,112 @@
 
     <div class="board">
         <div class="row">
-            <div class="tile" id="0">
+            <div class="tile">
+                <div class="mine" id="0"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="1">
+            <div class="tile">
+                <div class="mine" id="1"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="2">
+            <div class="tile">
+                <div class="mine" id="2"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="3">
+            <div class="tile">
+                <div class="mine" id="3"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="4">
-                <div class="cover"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="tile" id="5">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="6">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="7">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="8">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="9">
+            <div class="tile">
+                <div class="mine" id="4"></div>
                 <div class="cover"></div>
             </div>
         </div>
         <div class="row">
-            <div class="tile" id="10">
+            <div class="tile">
+                <div class="mine" id="5"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="11">
+            <div class="tile">
+                <div class="mine" id="6"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="12">
+            <div class="tile">
+                <div class="mine" id="7"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="13">
+            <div class="tile">
+                <div class="mine" id="8"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="14">
-                <div class="cover"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="tile" id="15">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="16">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="17">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="18">
-                <div class="cover"></div>
-            </div>
-            <div class="tile" id="19">
+            <div class="tile">
+                <div class="mine" id="9"></div>
                 <div class="cover"></div>
             </div>
         </div>
         <div class="row">
-            <div class="tile" id="20">
+            <div class="tile">
+                <div class="mine" id="10"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="21">
+            <div class="tile">
+                <div class="mine" id="11"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="22">
+            <div class="tile">
+                <div class="mine" id="12"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="23">
+            <div class="tile">
+                <div class="mine" id="13"></div>
                 <div class="cover"></div>
             </div>
-            <div class="tile" id="24">
+            <div class="tile">
+                <div class="mine" id="14"></div>
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile">
+                <div class="mine" id="15"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="16"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="17"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="18"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="19"></div>
+                <div class="cover"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="tile">
+                <div class="mine" id="20"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="21"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="22"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="23"></div>
+                <div class="cover"></div>
+            </div>
+            <div class="tile">
+                <div class="mine" id="24"></div>
                 <div class="cover"></div>
             </div>
         </div>
@@ -104,25 +129,35 @@
 
     </div>
 
+    <div style="position:absolute;" id="reset">
+        reset
+    </div>
+
     <script>
         
-        let clears = 0;
-        numBombs = 1;
-        let bombs = [];
         const tiles = 25;
+        const numBombs = 1;
 
-        let cleared = [];
+        let clears;
+        let bombs;
+        let cleared;
+        let bombFlag;
 
-        let bombFlag = false;
+        setTable();
 
-        for (let i = 0; i < numBombs; i++) {
-            let location;
-            do {
-                location = Math.floor(Math.random() * 25);
-            } while (bombs.includes(location));
-            location = 24;
-            bombs[i] = location;
-            console.log(bombs);
+        function setTable() {
+            clears = 0;
+            bombs = [];
+            cleared = [];
+            bombFlag = false;
+
+            for (let i = 0; i < numBombs; i++) {
+                let location;
+                do {
+                    location = Math.floor(Math.random() * 25);
+                } while (bombs.includes(location));
+                bombs[i] = i;
+            }
         }
         
         document.getElementById('play').addEventListener('click', () => {
@@ -137,70 +172,91 @@
                 i++;
             });
 
-            document.querySelectorAll('.cover').forEach(cover => {
+            document.querySelectorAll('.tile').forEach(tile => {
+                let cover = tile.querySelector('.cover');
+                let mine = tile.querySelector('.mine');
+                let mineId = parseInt(mine.id);
 
                 cover.addEventListener('click', () => {
-                    if (clears == tiles - numBombs) {
-                        bombFlag = true;
-                    }
-                    if (!cleared[cover.parentElement.id] && !bombFlag) {
-                        if (bombs.includes(parseInt(cover.parentElement.id))) {
-                            cover.classList.add('clear');
-                            cover.parentElement.classList.add('reveal');
-                            cover.parentElement.append("💣");
-                            cleared[cover.parentElement.id] = true;
-                            clears++;
+                    if (clears == tiles - numBombs) bombFlag = true;
+                    if (!cleared[mineId] && !bombFlag) {
+
+                        cover.classList.add('clear');
+                        mine.classList.add('reveal');
+                        cleared[mineId] = true;
+                        clears++;
+
+                        if (bombs.includes(mineId)) {
+                            mine.innerText = "💣";
                             setTimeout(() => {
                                 endGame();
                             }, 450);
                         } else {
-                            cover.classList.add('clear');
-                            cover.parentElement.classList.add('reveal');
-                            cover.parentElement.append("💎");
-                            clears++;
-                            cleared[cover.parentElement.id] = true;
+                            mine.innerText = "💎";
                         }
                     }
-                    
                 });
-
             });
         });
 
-        
+        document.getElementById('reset').addEventListener('click', () => {
+            resetBoard();
+        });
 
         function endGame() {
             bombFlag = true;
+
             document.querySelectorAll('.tile').forEach(tile => {
-                if (!cleared[tile.id]) {
-                    tile.classList.add('blurred');
+                let cover = tile.querySelector('.cover');
+                let mine = tile.querySelector('.mine');
+                let mineId = parseInt(mine.id);
+
+                if (!cleared[mineId]) {
+                    mine.classList.add('blurred');
+                    cover.classList.add('translucent');
+
+                    if (!bombs.includes(mineId) && !mine.innerText.includes("💎")) {
+                        mine.innerText = "💎";
+                    } else if (bombs.includes(mineId) && !mine.innerText.includes("💣")) {
+                        mine.innerText = "💣";
+                    }
                 }
             });
-            document.querySelectorAll('.cover').forEach(cover => {
-                cover.style.opacity = "70%";
-                if (!bombs.includes(parseInt(cover.parentElement.id)) && !cleared[cover.parentElement.id]) {
-                    if (!cover.parentElement.innerText.includes("💎")) {
-                        cover.parentElement.append("💎");
-                    }
-                } else if (bombs.includes(parseInt(cover.parentElement.id)) >= 0 && !cleared[cover.parentElement.id]) {
-                    if (!cover.parentElement.innerText.includes("💣")) {
-                        cover.parentElement.append("💣");
-                    }
-                }
+        }
+
+        function resetBoard() {
+            setTable();
+            dissolveBoard();
+            clearClasses();
+            
+            document.querySelectorAll('.mine').forEach(mine => {
+                mine.innerText = mine.innerText = "";
+            })
+        }
+
+        function clearClasses() {
+            document.querySelectorAll('.tile').forEach(tile => {
+                let cover = tile.querySelector('.cover');
+                let mine = tile.querySelector('.mine');
+
+                cover.className = "";
+                mine.className = "";
+
+                cover.classList.add('cover');
+                mine.classList.add('mine');
             });
+        }
+
+        function dissolveBoard() {
             let i = 24;
             document.querySelectorAll('.cover').forEach(cover => {
                 setTimeout(() => {
-                    cover.parentElement.innerText.replace(/💎/g, '');
-                    cover.parentElement.className = "";
-                    cover.parentElement.classList.add('tile');
                     cover.className = "";
                     cover.classList.add('cover');
                     cover.classList.add('erase');
                 }, 15 * i);
                 i--;
             });
-            i = 0;
             setTimeout(() => {
                 document.querySelectorAll('.cover').forEach(cover => {
                     setTimeout(() => {
@@ -210,7 +266,6 @@
                     i++;
                 });
             }, 1250);
-            
         }
 
     </script>
