@@ -129,19 +129,20 @@
 
     </div>
 
-    <div style="position:absolute;" id="reset">
+    <div class="press" id="reset">
         reset
     </div>
 
     <script>
         
         const tiles = 25;
-        const numBombs = 1;
+        const numBombs = 3;
 
         let clears;
         let bombs;
         let cleared;
-        let bombFlag;
+        let lose;
+        let win;
 
         setTable();
 
@@ -149,7 +150,8 @@
             clears = 0;
             bombs = [];
             cleared = [];
-            bombFlag = false;
+            lose = false;
+            win = false;
 
             for (let i = 0; i < numBombs; i++) {
                 let location;
@@ -178,8 +180,8 @@
                 let mineId = parseInt(mine.id);
 
                 cover.addEventListener('click', () => {
-                    if (clears == tiles - numBombs) bombFlag = true;
-                    if (!cleared[mineId] && !bombFlag) {
+                    if (clears == tiles - numBombs) lose = true;
+                    if (!cleared[mineId] && !lose) {
 
                         cover.classList.add('clear');
                         mine.classList.add('reveal');
@@ -204,7 +206,7 @@
         });
 
         function endGame() {
-            bombFlag = true;
+            lose = true;
 
             document.querySelectorAll('.tile').forEach(tile => {
                 let cover = tile.querySelector('.cover');
@@ -213,7 +215,14 @@
 
                 if (!cleared[mineId]) {
                     mine.classList.add('blurred');
-                    cover.classList.add('translucent');
+                    cover.className = "";
+                    cover.classList.add('clear');
+                    cover.classList.add('cover');
+                    
+                    setTimeout(() => {
+                        cover.classList.remove('clear');
+                        cover.classList.add('translucent');
+                    }, 550);
 
                     if (!bombs.includes(mineId) && !mine.innerText.includes("💎")) {
                         mine.innerText = "💎";
@@ -227,11 +236,6 @@
         function resetBoard() {
             setTable();
             dissolveBoard();
-            clearClasses();
-            
-            document.querySelectorAll('.mine').forEach(mine => {
-                mine.innerText = mine.innerText = "";
-            })
         }
 
         function clearClasses() {
@@ -249,14 +253,22 @@
 
         function dissolveBoard() {
             let i = 24;
-            document.querySelectorAll('.cover').forEach(cover => {
-                setTimeout(() => {
-                    cover.className = "";
-                    cover.classList.add('cover');
-                    cover.classList.add('erase');
-                }, 15 * i);
-                i--;
-            });
+            setTimeout(() => {
+                document.querySelectorAll('.tile').forEach(tile => {
+                    let cover = tile.querySelector('.cover');
+                    let mine = tile.querySelector('.mine');
+                    setTimeout(() => {
+                        cover.className = "";
+                        cover.classList.add('cover');
+                        cover.classList.add('erase');
+
+                        mine.className = "";
+                        mine.classList.add('mine');
+                        mine.classList.add('reveal');
+                    }, 15 * i);
+                    i--;
+                });
+            }, 0);
             setTimeout(() => {
                 document.querySelectorAll('.cover').forEach(cover => {
                     setTimeout(() => {
@@ -265,6 +277,10 @@
                     }, 15 * i);
                     i++;
                 });
+                document.querySelectorAll('.mine').forEach(mine => {
+                    mine.innerText = mine.innerText = "";
+                })
+                clearClasses();
             }, 1250);
         }
 
